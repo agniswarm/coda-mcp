@@ -62,6 +62,12 @@ import type {
   UpdatePageData,
   UpdatePageResponse,
   UpdatePageError,
+  DeletePageContentData,
+  DeletePageContentResponse,
+  DeletePageContentError,
+  ListPageContentData,
+  ListPageContentResponse,
+  ListPageContentError,
   BeginPageContentExportData,
   BeginPageContentExportResponse2,
   BeginPageContentExportError,
@@ -128,6 +134,21 @@ import type {
   GetCustomDocDomainProviderData,
   GetCustomDocDomainProviderResponse,
   GetCustomDocDomainProviderError,
+  ListFoldersData,
+  ListFoldersResponse,
+  ListFoldersError,
+  CreateFolderData,
+  CreateFolderResponse,
+  CreateFolderError,
+  DeleteFolderData,
+  DeleteFolderResponse,
+  DeleteFolderError,
+  GetFolderData,
+  GetFolderResponse,
+  GetFolderError,
+  UpdateFolderData,
+  UpdateFolderResponse,
+  UpdateFolderError,
   WhoamiData,
   WhoamiResponse,
   WhoamiError,
@@ -212,6 +233,24 @@ import type {
   UpdatePackReleaseData,
   UpdatePackReleaseResponse,
   UpdatePackReleaseError,
+  ListPackReviewsData,
+  ListPackReviewsResponse2,
+  ListPackReviewsError,
+  CreatePackReviewData,
+  CreatePackReviewResponse2,
+  CreatePackReviewError,
+  CancelPackReviewData,
+  CancelPackReviewResponse2,
+  CancelPackReviewError,
+  DeletePackListingDraftData,
+  DeletePackListingDraftResponse2,
+  DeletePackListingDraftError,
+  GetPackListingDraftData,
+  GetPackListingDraftResponse2,
+  GetPackListingDraftError,
+  UpsertPackListingDraftData,
+  UpsertPackListingDraftResponse2,
+  UpsertPackListingDraftError,
   GetPackOauthConfigData,
   GetPackOauthConfigResponse,
   GetPackOauthConfigError,
@@ -227,6 +266,9 @@ import type {
   SetPackSystemConnectionData,
   SetPackSystemConnectionResponse,
   SetPackSystemConnectionError,
+  DeleteUserPackPermissionData,
+  DeleteUserPackPermissionResponse,
+  DeleteUserPackPermissionError,
   GetPackPermissionsData,
   GetPackPermissionsResponse,
   GetPackPermissionsError,
@@ -236,6 +278,24 @@ import type {
   DeletePackPermissionData,
   DeletePackPermissionResponse2,
   DeletePackPermissionError,
+  ListUserPackInvitationsData,
+  ListUserPackInvitationsResponse,
+  ListUserPackInvitationsError,
+  ListPackInvitationsData,
+  ListPackInvitationsResponse,
+  ListPackInvitationsError,
+  CreatePackInvitationData,
+  CreatePackInvitationResponse2,
+  CreatePackInvitationError,
+  DeletePackInvitationData,
+  DeletePackInvitationResponse2,
+  DeletePackInvitationError,
+  UpdatePackInvitationData,
+  UpdatePackInvitationResponse2,
+  UpdatePackInvitationError,
+  ReplyToPackInvitationData,
+  ReplyToPackInvitationResponse,
+  ReplyToPackInvitationError,
   ListPackMakersData,
   ListPackMakersResponse2,
   ListPackMakersError,
@@ -287,12 +347,12 @@ import type {
   ListGroupedIngestionLogsData,
   ListGroupedIngestionLogsResponse,
   ListGroupedIngestionLogsError,
-  ListIngestionExecutionsData,
-  ListIngestionExecutionsResponse,
-  ListIngestionExecutionsError,
-  ListIngestionExecutionAttemptsData,
-  ListIngestionExecutionAttemptsResponse,
-  ListIngestionExecutionAttemptsError,
+  ListIngestionBatchExecutionsData,
+  ListIngestionBatchExecutionsResponse,
+  ListIngestionBatchExecutionsError,
+  ListIngestionParentItemsData,
+  ListIngestionParentItemsResponse,
+  ListIngestionParentItemsError,
   GetPackLogDetailsData,
   GetPackLogDetailsResponse,
   GetPackLogDetailsError,
@@ -305,6 +365,15 @@ import type {
   AddGoLinkData,
   AddGoLinkResponse,
   AddGoLinkError,
+  ListAgentSessionIdsData,
+  ListAgentSessionIdsResponse,
+  ListAgentSessionIdsError,
+  ListAgentLogsData,
+  ListAgentLogsResponse,
+  ListAgentLogsError,
+  GetAgentPackLogDetailsData,
+  GetAgentPackLogDetailsResponse,
+  GetAgentPackLogDetailsError,
 } from "./types.gen";
 import { client as _heyApiClient } from "./client.gen";
 
@@ -716,6 +785,49 @@ export const updatePage = <ThrowOnError extends boolean = false>(options: Option
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * Delete page content
+ * Delete content from a page. You can delete specific elements by providing their IDs, or delete all content from the page.
+ *
+ */
+export const deletePageContent = <ThrowOnError extends boolean = false>(
+  options: Options<DeletePageContentData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<DeletePageContentResponse, DeletePageContentError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/docs/{docId}/pages/{pageIdOrName}/content",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * List page content
+ * Returns a list of content elements in a page.
+ */
+export const listPageContent = <ThrowOnError extends boolean = false>(
+  options: Options<ListPageContentData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<ListPageContentResponse, ListPageContentError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/docs/{docId}/pages/{pageIdOrName}/content",
+    ...options,
   });
 };
 
@@ -1223,6 +1335,110 @@ export const getCustomDocDomainProvider = <ThrowOnError extends boolean = false>
     ],
     url: "/domains/provider/{customDocDomain}",
     ...options,
+  });
+};
+
+/**
+ * List folders
+ * Returns a list of folders the user has access to.
+ *
+ */
+export const listFolders = <ThrowOnError extends boolean = false>(options?: Options<ListFoldersData, ThrowOnError>) => {
+  return (options?.client ?? _heyApiClient).get<ListFoldersResponse, ListFoldersError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/folders",
+    ...options,
+  });
+};
+
+/**
+ * Create folder
+ * Creates a new folder.
+ *
+ */
+export const createFolder = <ThrowOnError extends boolean = false>(
+  options: Options<CreateFolderData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<CreateFolderResponse, CreateFolderError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/folders",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Delete folder
+ * Deletes a folder. The folder must be empty (contain no docs).
+ *
+ */
+export const deleteFolder = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteFolderData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<DeleteFolderResponse, DeleteFolderError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/folders/{folderId}",
+    ...options,
+  });
+};
+
+/**
+ * Get folder
+ * Returns the requested folder.
+ *
+ */
+export const getFolder = <ThrowOnError extends boolean = false>(options: Options<GetFolderData, ThrowOnError>) => {
+  return (options.client ?? _heyApiClient).get<GetFolderResponse, GetFolderError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/folders/{folderId}",
+    ...options,
+  });
+};
+
+/**
+ * Update folder
+ * Updates metadata for a folder.
+ *
+ */
+export const updateFolder = <ThrowOnError extends boolean = false>(
+  options: Options<UpdateFolderData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).patch<UpdateFolderResponse, UpdateFolderError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/folders/{folderId}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -1878,6 +2094,136 @@ export const updatePackRelease = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * List pack reviews
+ * List reviews for a specific pack.
+ */
+export const listPackReviews = <ThrowOnError extends boolean = false>(
+  options: Options<ListPackReviewsData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<ListPackReviewsResponse2, ListPackReviewsError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/{packId}/reviews",
+    ...options,
+  });
+};
+
+/**
+ * Create pack review
+ * Submit a pack for review in Superhuman GO.
+ */
+export const createPackReview = <ThrowOnError extends boolean = false>(
+  options: Options<CreatePackReviewData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<CreatePackReviewResponse2, CreatePackReviewError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/{packId}/reviews",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Cancel pending pack review
+ * Cancel the pending pack review for this pack. Any user with edit permission on the pack can cancel the review.
+ */
+export const cancelPackReview = <ThrowOnError extends boolean = false>(
+  options: Options<CancelPackReviewData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<CancelPackReviewResponse2, CancelPackReviewError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/{packId}/reviews/pending/cancel",
+    ...options,
+  });
+};
+
+/**
+ * Delete Pack listing draft
+ * Delete the listing draft for a Pack, discarding any unsaved changes.
+ */
+export const deletePackListingDraft = <ThrowOnError extends boolean = false>(
+  options: Options<DeletePackListingDraftData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeletePackListingDraftResponse2,
+    DeletePackListingDraftError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/{packId}/listingDraft",
+    ...options,
+  });
+};
+
+/**
+ * Get Pack listing draft
+ * Get the current listing draft for a Pack.
+ */
+export const getPackListingDraft = <ThrowOnError extends boolean = false>(
+  options: Options<GetPackListingDraftData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<GetPackListingDraftResponse2, GetPackListingDraftError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/{packId}/listingDraft",
+    ...options,
+  });
+};
+
+/**
+ * Upsert Pack listing draft
+ * Create or update the listing draft for a Pack.
+ */
+export const upsertPackListingDraft = <ThrowOnError extends boolean = false>(
+  options: Options<UpsertPackListingDraftData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<
+    UpsertPackListingDraftResponse2,
+    UpsertPackListingDraftError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/{packId}/listingDraft",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
  * Retrieve the OAuth configuration of the Pack.
  * Retrieve the OAuth configuration of the Pack for display purpose. Secrets will be returned with masks.
  *
@@ -2002,6 +2348,30 @@ export const setPackSystemConnection = <ThrowOnError extends boolean = false>(
 };
 
 /**
+ * Delete a user's own permissions for Pack
+ * Delete a user's own permissions for a given Pack.
+ *
+ */
+export const deleteUserPackPermission = <ThrowOnError extends boolean = false>(
+  options: Options<DeleteUserPackPermissionData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeleteUserPackPermissionResponse,
+    DeleteUserPackPermissionError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/{packId}/permissions",
+    ...options,
+  });
+};
+
+/**
  * List permissions for a Pack
  * Get user, workspace, and/or global permissions for a given Pack.
  *
@@ -2066,6 +2436,152 @@ export const deletePackPermission = <ThrowOnError extends boolean = false>(
     ],
     url: "/packs/{packId}/permissions/{permissionId}",
     ...options,
+  });
+};
+
+/**
+ * List pending Pack invitations for the current user
+ * Get pending Pack invitations for the authenticated user.
+ *
+ */
+export const listUserPackInvitations = <ThrowOnError extends boolean = false>(
+  options?: Options<ListUserPackInvitationsData, ThrowOnError>,
+) => {
+  return (options?.client ?? _heyApiClient).get<
+    ListUserPackInvitationsResponse,
+    ListUserPackInvitationsError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/invitations",
+    ...options,
+  });
+};
+
+/**
+ * List invitations for a Pack
+ * Get pending invitations for a given Pack.
+ *
+ */
+export const listPackInvitations = <ThrowOnError extends boolean = false>(
+  options: Options<ListPackInvitationsData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<ListPackInvitationsResponse, ListPackInvitationsError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/{packId}/invitations",
+    ...options,
+  });
+};
+
+/**
+ * Create an invitation for Pack
+ * Create an invitation for a user to access a Pack.
+ *
+ */
+export const createPackInvitation = <ThrowOnError extends boolean = false>(
+  options: Options<CreatePackInvitationData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<CreatePackInvitationResponse2, CreatePackInvitationError, ThrowOnError>(
+    {
+      security: [
+        {
+          scheme: "bearer",
+          type: "http",
+        },
+      ],
+      url: "/packs/{packId}/invitations",
+      ...options,
+      headers: {
+        "Content-Type": "application/json",
+        ...options?.headers,
+      },
+    },
+  );
+};
+
+/**
+ * Revoke an invitation for Pack
+ * Revoke a pending Pack invitation.
+ *
+ */
+export const deletePackInvitation = <ThrowOnError extends boolean = false>(
+  options: Options<DeletePackInvitationData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).delete<
+    DeletePackInvitationResponse2,
+    DeletePackInvitationError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/{packId}/invitations/{invitationId}",
+    ...options,
+  });
+};
+
+/**
+ * Update an invitation for Pack
+ * Update the access level of an existing Pack invitation.
+ *
+ */
+export const updatePackInvitation = <ThrowOnError extends boolean = false>(
+  options: Options<UpdatePackInvitationData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).put<UpdatePackInvitationResponse2, UpdatePackInvitationError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/{packId}/invitations/{invitationId}",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
+  });
+};
+
+/**
+ * Reply to a Pack invitation
+ * Reply to a Pack invitation (accept or reject). Requires authentication as the invited user.
+ *
+ */
+export const replyToPackInvitation = <ThrowOnError extends boolean = false>(
+  options: Options<ReplyToPackInvitationData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).post<
+    ReplyToPackInvitationResponse,
+    ReplyToPackInvitationError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/packs/invitations/{invitationId}/reply",
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...options?.headers,
+    },
   });
 };
 
@@ -2409,7 +2925,7 @@ export const listIngestionLogs = <ThrowOnError extends boolean = false>(
         style: "form",
       },
     },
-    url: "/packs/{packId}/organizationId/{organizationId}/rootIngestionId/{rootIngestionId}/logs",
+    url: "/packs/{packId}/tenantId/{tenantId}/rootIngestionId/{rootIngestionId}/logs",
     ...options,
   });
 };
@@ -2453,22 +2969,22 @@ export const listGroupedIngestionLogs = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/packs/{packId}/organizationId/{organizationId}/rootIngestionId/{rootIngestionId}/groupedLogs",
+    url: "/packs/{packId}/tenantId/{tenantId}/rootIngestionId/{rootIngestionId}/groupedLogs",
     ...options,
   });
 };
 
 /**
- * Retrieve a list of ingestion execution ids for the given root ingestion id.
- * Retrieve the ingestion execution ids of a root ingestion for debugging purpose.
+ * Retrieve a list of ingestion batch executions for the given root ingestion id.
+ * Retrieve the ingestion batch executions of a root ingestion for debugging purpose.
  *
  */
-export const listIngestionExecutions = <ThrowOnError extends boolean = false>(
-  options: Options<ListIngestionExecutionsData, ThrowOnError>,
+export const listIngestionBatchExecutions = <ThrowOnError extends boolean = false>(
+  options: Options<ListIngestionBatchExecutionsData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).get<
-    ListIngestionExecutionsResponse,
-    ListIngestionExecutionsError,
+    ListIngestionBatchExecutionsResponse,
+    ListIngestionBatchExecutionsError,
     ThrowOnError
   >({
     security: [
@@ -2477,22 +2993,22 @@ export const listIngestionExecutions = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/packs/{packId}/organizationId/{organizationId}/rootIngestionId/{rootIngestionId}/ingestionExecutions",
+    url: "/packs/{packId}/tenantId/{tenantId}/rootIngestionId/{rootIngestionId}/ingestionBatchExecutions",
     ...options,
   });
 };
 
 /**
- * Retrieve a list of ingestion execution ids for the given root ingestion id.
- * Retrieve the ingestion execution ids of a root ingestion for debugging purpose.
+ * Retrieve a list of parent items for the given ingestion batch execution id.
+ * Retrieve the parent items of a ingestion batch execution for debugging purpose.
  *
  */
-export const listIngestionExecutionAttempts = <ThrowOnError extends boolean = false>(
-  options: Options<ListIngestionExecutionAttemptsData, ThrowOnError>,
+export const listIngestionParentItems = <ThrowOnError extends boolean = false>(
+  options: Options<ListIngestionParentItemsData, ThrowOnError>,
 ) => {
   return (options.client ?? _heyApiClient).get<
-    ListIngestionExecutionAttemptsResponse,
-    ListIngestionExecutionAttemptsError,
+    ListIngestionParentItemsResponse,
+    ListIngestionParentItemsError,
     ThrowOnError
   >({
     security: [
@@ -2501,7 +3017,7 @@ export const listIngestionExecutionAttempts = <ThrowOnError extends boolean = fa
         type: "http",
       },
     ],
-    url: "/packs/{packId}/organizationId/{organizationId}/rootIngestionId/{rootIngestionId}/ingestionExecutionId/{ingestionExecutionId}/attempts",
+    url: "/packs/{packId}/tenantId/{tenantId}/rootIngestionId/{rootIngestionId}/ingestionBatchExecutions/{ingestionExecutionId}/parentItems",
     ...options,
   });
 };
@@ -2521,7 +3037,7 @@ export const getPackLogDetails = <ThrowOnError extends boolean = false>(
         type: "http",
       },
     ],
-    url: "/packs/{packId}/organizationId/{organizationId}/rootIngestionId/{rootIngestionId}/logs/{logId}",
+    url: "/packs/{packId}/tenantId/{tenantId}/rootIngestionId/{rootIngestionId}/logs/{logId}",
     ...options,
   });
 };
@@ -2592,5 +3108,79 @@ export const addGoLink = <ThrowOnError extends boolean = false>(options: Options
       "Content-Type": "application/json",
       ...options?.headers,
     },
+  });
+};
+
+/**
+ * Retrieve the chat sessions of an agent instance.
+ * Retrieve the chat sessions of an agent instance for debugging purpose.
+ */
+export const listAgentSessionIds = <ThrowOnError extends boolean = false>(
+  options: Options<ListAgentSessionIdsData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<ListAgentSessionIdsResponse, ListAgentSessionIdsError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    querySerializer: {
+      array: {
+        explode: false,
+        style: "form",
+      },
+    },
+    url: "/go/tenants/{tenantId}/agentInstances/{agentInstanceId}/agentSessionIds",
+    ...options,
+  });
+};
+
+/**
+ * Retrieve the logs of an agent instance.
+ * Retrieve the logs of an agent instance for debugging purpose.
+ */
+export const listAgentLogs = <ThrowOnError extends boolean = false>(
+  options: Options<ListAgentLogsData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<ListAgentLogsResponse, ListAgentLogsError, ThrowOnError>({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    querySerializer: {
+      array: {
+        explode: false,
+        style: "form",
+      },
+    },
+    url: "/go/tenants/{tenantId}/agentInstances/{agentInstanceId}/logs",
+    ...options,
+  });
+};
+
+/**
+ * Retrieve the information for a specific log.
+ * Retrieve the log details of given logId.
+ *
+ */
+export const getAgentPackLogDetails = <ThrowOnError extends boolean = false>(
+  options: Options<GetAgentPackLogDetailsData, ThrowOnError>,
+) => {
+  return (options.client ?? _heyApiClient).get<
+    GetAgentPackLogDetailsResponse,
+    GetAgentPackLogDetailsError,
+    ThrowOnError
+  >({
+    security: [
+      {
+        scheme: "bearer",
+        type: "http",
+      },
+    ],
+    url: "/go/tenants/{tenantId}/agentInstances/{agentInstanceId}/logs/{logId}",
+    ...options,
   });
 };

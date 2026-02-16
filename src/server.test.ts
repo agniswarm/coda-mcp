@@ -17,18 +17,52 @@ describe("MCP Server", () => {
   it("should have all tools", async () => {
     const client = await connect(mcpServer.server);
     const result = await client.listTools();
-    expect(result.tools).toEqual([
-      expect.objectContaining({ name: "coda_list_documents" }),
-      expect.objectContaining({ name: "coda_list_pages" }),
-      expect.objectContaining({ name: "coda_create_page" }),
-      expect.objectContaining({ name: "coda_get_page_content" }),
-      expect.objectContaining({ name: "coda_peek_page" }),
-      expect.objectContaining({ name: "coda_replace_page_content" }),
-      expect.objectContaining({ name: "coda_append_page_content" }),
-      expect.objectContaining({ name: "coda_duplicate_page" }),
-      expect.objectContaining({ name: "coda_rename_page" }),
-      expect.objectContaining({ name: "coda_resolve_link" }),
-    ]);
+    const expectedNames = [
+      "coda_list_documents",
+      "coda_list_pages",
+      "coda_create_page",
+      "coda_get_page_content",
+      "coda_peek_page",
+      "coda_replace_page_content",
+      "coda_append_page_content",
+      "coda_duplicate_page",
+      "coda_rename_page",
+      "coda_resolve_link",
+      "coda_create_doc",
+      "coda_get_doc",
+      "coda_update_doc",
+      "coda_delete_doc",
+      "coda_get_sharing_metadata",
+      "coda_list_permissions",
+      "coda_add_permission",
+      "coda_delete_permission",
+      "coda_search_principals",
+      "coda_get_acl_settings",
+      "coda_update_acl_settings",
+      "coda_list_categories",
+      "coda_publish_doc",
+      "coda_unpublish_doc",
+      "coda_get_page",
+      "coda_delete_page",
+      "coda_begin_page_content_export",
+      "coda_get_page_content_export_status",
+      "coda_list_tables",
+      "coda_get_table",
+      "coda_list_columns",
+      "coda_get_column",
+      "coda_list_rows",
+      "coda_upsert_rows",
+      "coda_delete_rows",
+      "coda_get_row",
+      "coda_update_row",
+      "coda_delete_row",
+      "coda_push_button",
+      "coda_list_formulas",
+      "coda_get_formula",
+    ];
+    expect(result.tools).toBeDefined();
+    const actualNames = (result.tools ?? []).map((t) => t.name).sort();
+    expect(actualNames).toEqual([...expectedNames].sort());
   });
 });
 
